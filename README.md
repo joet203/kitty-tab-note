@@ -7,17 +7,7 @@ You hit a key, type a short note, and a large coloured label appears low on the 
 overlay over that tab. The tab's existing text stays visible (slightly dimmed) behind the note.
 Press any key to dismiss it and pick up where you were.
 
-```
-   line one of the session, still readable behind …
-   ❯ paused here, waiting on the deploy
-                                                            (dimmed)
-
-         ██   ██  ████  ██ ██████ ██ ██   ██  ████
-         ██   ██ ██  ██ ██   ██   ██ ██   ██ ██          ← your note,
-         ██ █ ██ ██████ ██   ██   ██ ██ █ ██ ██  ███       big & bright
-          ██ ██  ██  ██ ██   ██   ██  ██ ██   ████
-   press any key to dismiss
-```
+![A parked build-watcher session with a big blue "BACK AFTER REVIEW" note drawn over it](demo.png)
 
 It's handy when you juggle several long-running terminal sessions (build watchers, REPLs,
 AI coding agents, SSH sessions) and park some of them with a "come back to this" reason.
