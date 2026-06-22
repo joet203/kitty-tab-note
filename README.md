@@ -7,7 +7,7 @@ You hit a key, type a short note, and a large coloured label appears low on the 
 overlay over that tab. The tab's existing text stays visible (slightly dimmed) behind the note.
 Press any key to dismiss it and pick up where you were.
 
-![A parked build-watcher session with a big blue "BACK AFTER REVIEW" note drawn over it](demo.png)
+![A parked build-watcher session with a big blue "WAITING ON REVIEW" note (real font) drawn over it](demo.png)
 
 It's handy when you juggle several long-running terminal sessions (build watchers, REPLs,
 AI coding agents, SSH sessions) and park some of them with a "come back to this" reason.
@@ -19,7 +19,8 @@ draws a **large** note right in the window where you can't miss it, without touc
 
 ## Requirements
 
-- **kitty** with remote control enabled. Add to `~/.config/kitty/kitty.conf` if not already:
+- **kitty ≥ 0.40** (for the [text-sizing protocol](https://sw.kovidgoyal.net/kitty/text-sizing-protocol/))
+  with remote control enabled. Add to `~/.config/kitty/kitty.conf` if not already:
   ```
   allow_remote_control yes
   listen_on unix:/tmp/kitty-{kitty_pid}
@@ -58,7 +59,7 @@ Set environment variables (e.g. in the `launch` line via `--env NAME=VALUE`):
 |---|---|---|
 | `TABNOTE_COLOR` | `1;94` | ANSI SGR for the note (bold bright blue). e.g. `1;92` green, `1;95` magenta |
 | `TABNOTE_DIM` | `0;2` | ANSI SGR for the background. `0` = not dimmed, `38;5;240` = heavily dimmed |
-| `TABNOTE_SIZE` | `2` | Block scale, 1–4 (bigger = larger letters) |
+| `TABNOTE_SIZE` | `4` | Text scale, 1–7 (bigger = larger letters) |
 | `TABNOTE_POS` | `bottom` | `bottom`, `middle`, or `top` |
 | `TABNOTE_SIBLING_HINT` | _(unset)_ | If a tab has multiple windows, prefer the one whose command contains this string |
 
@@ -74,8 +75,8 @@ Terminal overlay windows can't be truly translucent, so for a *parked* tab the s
 
 1. Snapshots the tab's window text via `kitty @ get-text`.
 2. Redraws that snapshot dimmed as the background.
-3. Paints the note on top using a tiny built-in 3×5 **block font**, upscaled and drawn with
-   `█` characters — leaving the letter gaps unpainted so the dimmed text shows through.
+3. Draws the note on top using kitty's native **text-sizing protocol** (`OSC 66`) — the real
+   terminal font, scaled up to 7× the cell size. No images, no bundled fonts, no dependencies.
 
 The background is a frozen snapshot from the moment you tag the tab, which is exactly right
 for a tab you're parking (it isn't changing). It does **not** modify the running program.
@@ -84,7 +85,7 @@ for a tab you're parking (it isn't changing). It does **not** modify the running
 
 - The background snapshot is frozen, not live. For an actively-updating session you'd want a
   split pane instead of an overlay.
-- The block font covers `A–Z 0–9` and common punctuation; notes are upper-cased when rendered.
+- Notes are upper-cased when rendered. Any text the font supports works (it's the real font).
 
 ## License
 
